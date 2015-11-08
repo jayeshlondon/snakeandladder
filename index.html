@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title> Snake & Ledders</title>
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="page">
+       <div id="header">
+            <div class="nav1">
+               <img src="images/348.png"/>
+             </div>           
+            <div class="diceblock">
+                <img src="images/img1.png" id="imgDice" />
+                <div>
+                	<input type="button" onClick="startDice();" id="startButton" value="start" />
+                	<input type="button" onclick="stopDice()" id="stopButton" disabled="disabled" value="stop"/>
+                </div>
+           </div>
+           <!-- <div class="players">
+               <label>Player-1</label> <input type="radio" name="players" value="Player1"/>
+               <label>Player-2</label>
+           </div> -->
+      
+   </div> <!-- Header Part-->
+    <div id="content">      
+          <div class="playboard">
+          	<div class="playBlock" id="position"></div>
+          </div> 
+       </div> 
+    </div>
+
+<script>
+
+	var newarray= new Array();
+	var moveForwardBackward = new Array();
+	var currentBoxNumber = -1;
+		
+	
+	var currentBox = { topPosition: -150, leftPosition: -150};
+	var moveFB={currentPosition: 0, movePosition: 0}
+	var currentMove = document.getElementById('position');
+	
+	
+	//set initial position
+	currentMove.style.top = currentBox.topPosition + 'px';
+	currentMove.style.left = currentBox.leftPosition + 'px';
+	
+	//row 1
+	newarray[0] = { topPosition: 600, leftPosition: 0 ,id:1};
+	newarray[1] = { topPosition: 600, leftPosition: 150,id:2 };
+	newarray[2] = { topPosition: 600, leftPosition: 300,id:3 };
+	newarray[3] = { topPosition: 600, leftPosition: 450,id:4 };
+	newarray[4] = { topPosition: 600, leftPosition: 600,id:5 };
+	newarray[5] = { topPosition: 600, leftPosition: 750,id:6 };
+	
+	//row 2
+	newarray[6] = { topPosition: 450, leftPosition: 750,id: 7};
+	newarray[7] = { topPosition: 450, leftPosition: 600,id:8 };
+	newarray[8] = { topPosition: 450, leftPosition: 450,id:9 };
+	newarray[9] = { topPosition: 450, leftPosition: 300 ,id:10};
+	newarray[10] = { topPosition: 450, leftPosition: 150 ,id:11};
+	newarray[11] = { topPosition: 450, leftPosition: 0,id:12 };
+	
+	//row 3
+	newarray[12] = { topPosition: 300, leftPosition: 0 ,id:13};
+	newarray[13] = { topPosition: 300, leftPosition: 150,id:14 };
+	newarray[14] = { topPosition: 300, leftPosition: 300,id:15 };
+	newarray[15] = { topPosition: 300, leftPosition: 450,id:16 };
+	newarray[16] = { topPosition: 300, leftPosition: 600,id:17 };
+	newarray[17] = { topPosition: 300, leftPosition: 750,id:18 };
+	
+	//row 4
+	newarray[18] = { topPosition: 150, leftPosition: 750,id:19 };
+	newarray[19] = { topPosition: 150, leftPosition: 600,id:20 };
+	newarray[20] = { topPosition: 150, leftPosition: 450,id:21 };
+	newarray[21] = { topPosition: 150, leftPosition: 300,id:22 };
+	newarray[22] = { topPosition: 150, leftPosition: 150,id:23 };
+	newarray[23] = { topPosition: 150, leftPosition: 0,id:24 };
+	
+	//row 5
+	newarray[24] = { topPosition: 0, leftPosition: 0,id:25 };
+	newarray[25] = { topPosition: 0, leftPosition: 150,id:26 };
+	newarray[26] = { topPosition: 0, leftPosition: 300,id:27 };
+	newarray[27] = { topPosition: 0, leftPosition: 450,id:28 };
+	newarray[28] = { topPosition: 0, leftPosition: 600,id:29 };
+	newarray[29] = { topPosition: 0, leftPosition: 750,id:30 };
+	
+	
+	moveForwardBackward[0] = { currentPosition: 3, movePosition: 22 };
+	moveForwardBackward[1] = { currentPosition: 5, movePosition: 8 };
+	moveForwardBackward[2] = { currentPosition: 11, movePosition: 26 };
+	moveForwardBackward[3] = { currentPosition: 20, movePosition: 29 };
+	moveForwardBackward[4] = { currentPosition: 27, movePosition: 1 };
+	moveForwardBackward[5] = { currentPosition: 21, movePosition: 9 };
+	moveForwardBackward[6] = { currentPosition: 19, movePosition: 7 };
+	moveForwardBackward[7] = { currentPosition: 17, movePosition: 4 };
+	
+		
+	var get;
+	var slider;
+	var imgDiceNumber = 0;
+	
+	var imageList = document.getElementById("dicemove");
+	
+	function startDice()
+	{
+		startButton.disabled = true;
+		stopButton.disabled = false;
+		slider = setInterval('rolls()', 100);
+		var press=document.getElementById('start');
+	}
+		
+	function rolls()
+	{
+		imgDiceNumber = (Math.floor(Math.random() * 6) + 1);
+		imgDice.src = "images/img" + imgDiceNumber + ".png";			
+	}
+
+	function stopDice()
+	   {
+		 stopButton.disabled = true;
+		 startButton.disabled = false;
+		 clearInterval(slider);
+		
+		 currentBoxNumber +=  imgDiceNumber;
+		if(currentBoxNumber>=30){alert("Congrates.....You Win...");currentBoxNumber=0;}
+		 
+		if(newarray[currentBoxNumber].id== 3){ alert("wow...up to 22 ");currentBoxNumber=21;};
+		if(newarray[currentBoxNumber].id== 5){alert("wow...up to 8 "); currentBoxNumber=7;};
+	    if(newarray[currentBoxNumber].id== 11){ alert("wow...up to 26"); currentBoxNumber=25;};
+		if(newarray[currentBoxNumber].id== 20){ alert("wow...up to 29 "); currentBoxNumber=28;};
+		if(newarray[currentBoxNumber].id== 27){alert("Opps...down to 1 "); currentBoxNumber=0;};
+		if(newarray[currentBoxNumber].id== 21){alert("Opps...down to 9 "); currentBoxNumber=8;};
+		if(newarray[currentBoxNumber].id== 17){alert("Opps...down to 4 "); currentBoxNumber=3;};
+		if(newarray[currentBoxNumber].id== 19){alert("Opps...down to 7 "); currentBoxNumber=6;};
+
+		currentBox = newarray[currentBoxNumber];
+
+
+		currentMove.style.top = currentBox.topPosition + 'px';
+		currentMove.style.left = currentBox.leftPosition + 'px';
+
+	}
+   
+  </script>
+
+</body></html>
